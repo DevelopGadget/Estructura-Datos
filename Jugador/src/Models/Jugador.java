@@ -33,6 +33,6 @@ public class Jugador {
     }
     
     public int Edad(){
-        return Fecha.getYear() - new Date().getYear();
+        return new Date().getYear() - Fecha.getYear();
     }
 }
