@@ -1,11 +1,12 @@
 package Views;
 
 import Controllers.JugadorController;
+import Models.Jugador;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 public class Principal extends javax.swing.JFrame {
-
+    
     private static DefaultTableModel TablaJug;
     private static JugadorController Jugadores = new JugadorController();
     
@@ -14,7 +15,7 @@ public class Principal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         TablaJug = (DefaultTableModel) Tabla.getModel();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -71,6 +72,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jButton1.setText(">");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         tbl_Edad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,12 +142,24 @@ public class Principal extends javax.swing.JFrame {
         new Registro(this, false);
     }//GEN-LAST:event_AddActionPerformed
 
-    public static void Listar(){
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ListarOrdenado((DefaultTableModel) tbl_Edad.getModel(), Jugadores.OrdenarEdad());
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    public static void Listar() {
         Vector<String[]> Find = Jugadores.Read();
         TablaJug.setNumRows(0);
         Find.forEach(Item -> {
             TablaJug.addRow(Item);
         });
+    }
+    
+    private void ListarOrdenado(DefaultTableModel Model, String[] Vector) {
+        Model.setColumnCount(0);
+        for (String S : Vector) {
+            System.out.println(S);
+            Model.addColumn(S);
+        }
     }
     
     public static void main(String args[]) {
