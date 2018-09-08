@@ -22,15 +22,17 @@ public class JugadorController {
 
     public String[] OrdenarEdad() {
         String[] Ordenado = new String[Jugadores.size()];
-        for(int i = 0; i < Jugadores.size(); i++){
+        for (int i = 0; i < Jugadores.size(); i++) {
             Ordenado[i] = Jugadores.get(i).getNombre();
         }
         for (int i = 0; i < Jugadores.size() - 1; i++) {
-            for (int b = i + 1; b < Jugadores.size(); b++) {
-                if (Jugadores.get(i).Edad() <= Jugadores.get(b).Edad()) {
-                    String aux = Jugadores.get(i).getNombre();
-                    Ordenado[i] = Jugadores.get(b).getNombre();
-                    Ordenado[b] = aux;
+            for (int j = 0; j < Jugadores.size() - i - 1; j++) {
+                if (Jugadores.get(j + 1).Edad() <= Jugadores.get(j).Edad()) {
+                    if (!Jugadores.get(j + 1).getNombre().equals(Jugadores.get(j).getNombre())) {
+                        String aux = Ordenado[j + 1];
+                        Ordenado[j + 1] = Ordenado[j];
+                        Ordenado[j] = aux;
+                    }
                 }
             }
         }

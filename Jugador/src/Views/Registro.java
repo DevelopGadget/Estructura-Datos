@@ -117,7 +117,9 @@ public class Registro extends javax.swing.JDialog {
            Jugadores.Create(new Jugador("2", "D", formatoDeFecha.parse("16/02/2001"), 17));
             Jugadores.Create(new Jugador("1", "D", formatoDeFecha.parse("16/02/2000"), 17));
             Jugadores.Create(new Jugador("3", "D", formatoDeFecha.parse("16/02/1998"), 17));
+            Jugadores.Create(new Jugador("6", "D", formatoDeFecha.parse("16/02/1998"), 17));
             Jugadores.Create(new Jugador("4", "D", formatoDeFecha.parse("16/02/1999"), 17));
+            Jugadores.Create(new Jugador("5", "D", formatoDeFecha.parse("16/02/1999"), 17));
             Principal.Listar();
         } catch (ParseException ex) {
             Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
