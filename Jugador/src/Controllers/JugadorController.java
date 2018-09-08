@@ -38,4 +38,23 @@ public class JugadorController {
         }
         return Ordenado;
     }
+
+    public String[] OrdenarEstatura() {
+        String[] Ordenado = new String[Jugadores.size()];
+        for (int i = 0; i < Jugadores.size(); i++) {
+            Ordenado[i] = Jugadores.get(i).getNombre();
+        }
+        for (int i = 0; i < Jugadores.size() - 1; i++) {
+            for (int j = 0; j < Jugadores.size() - i - 1; j++) {
+                if (Jugadores.get(j + 1).getEstatura()<= Jugadores.get(j).getEstatura()) {
+                    if (!Jugadores.get(j + 1).getNombre().equals(Jugadores.get(j).getNombre())) {
+                        String aux = Ordenado[j + 1];
+                        Ordenado[j + 1] = Ordenado[j];
+                        Ordenado[j] = aux;
+                    }
+                }
+            }
+        }
+        return Ordenado;
+    }
 }

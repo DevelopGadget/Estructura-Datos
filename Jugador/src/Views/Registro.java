@@ -1,4 +1,3 @@
-
 package Views;
 
 import Controllers.JugadorController;
@@ -12,7 +11,7 @@ import java.util.logging.Logger;
 public class Registro extends javax.swing.JDialog {
 
     private JugadorController Jugadores = new JugadorController();
-    
+
     public Registro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -113,13 +112,7 @@ public class Registro extends javax.swing.JDialog {
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
         try {
             SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy");
-          //  Jugadores.Create(new Jugador(Nombre.getText(), Combo.getSelectedItem().toString(), formatoDeFecha.parse(Fecha.getText()), Integer.parseInt(Estatura.getText())));
-           Jugadores.Create(new Jugador("2", "D", formatoDeFecha.parse("16/02/2001"), 17));
-            Jugadores.Create(new Jugador("1", "D", formatoDeFecha.parse("16/02/2000"), 17));
-            Jugadores.Create(new Jugador("3", "D", formatoDeFecha.parse("16/02/1998"), 17));
-            Jugadores.Create(new Jugador("6", "D", formatoDeFecha.parse("16/02/1998"), 17));
-            Jugadores.Create(new Jugador("4", "D", formatoDeFecha.parse("16/02/1999"), 17));
-            Jugadores.Create(new Jugador("5", "D", formatoDeFecha.parse("16/02/1999"), 17));
+            Jugadores.Create(new Jugador(Nombre.getText(), Combo.getSelectedItem().toString(), formatoDeFecha.parse(Fecha.getText()), Integer.parseInt(Estatura.getText())));
             Principal.Listar();
         } catch (ParseException ex) {
             Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
