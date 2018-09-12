@@ -19,17 +19,23 @@ public class AsociadoController {
         Prestamos.add(P);
     }
 
-    public void CrearCuotas(Prestamo P, int Index, Vector<Cuota> CuotasA) {
+    public void CrearCuotas(Prestamo P, int Index, Vector<Cuota> CuotasA, int Asociado) {
+        double Cuota = P.getValor() / P.getPlazo();
         if (Index == 1) {
-            CuotasA.add(new Cuota(Index, (P.getValor() / P.getPlazo()), P.getValor(), (P.getValor() - (P.getValor() / P.getPlazo())), false, P));
+            CuotasA.add(new Cuota(Index, Cuota, P.getValor(), P.getValor() - Cuota, false, P));
         } else {
-            CuotasA.add(new Cuota(Index, (P.getValor() / P.getPlazo()), CuotasA.get(Index - 2).getSaldo(), (CuotasA.get(Index - 2).getSaldo() - (P.getValor() / P.getPlazo())), false, P));
+            double Saldo = CuotasA.get(Index - 2).getSaldo() - Cuota;
+            if (Saldo < 0) {
+                Saldo = 0;
+            }
+            CuotasA.add(new Cuota(Index, Cuota, CuotasA.get(Index - 2).getSaldo(), Saldo, false, P));
         }
         Index++;
         if (Index <= P.getPlazo()) {
-            CrearCuotas(P, Index, CuotasA);
+            CrearCuotas(P, Index, CuotasA, Asociado);
         } else {
             Cuotas.add(CuotasA);
+            Asociados.get(Asociado).setIndexCuotas(Cuotas.size() - 1);
         }
     }
 
@@ -56,11 +62,11 @@ public class AsociadoController {
 
     public boolean ValidarEstadoPrestamo(int Index) {
         int i = 0;
-        for(int j = 0; j < Cuotas.get(Index).size(); j++){
+        for (int j = 0; j < Cuotas.get(Index).size(); j++) {
             if (Cuotas.get(Index).get(j).isPagado()) {
                 i++;
             }
-            if(i == Cuotas.get(Index).size()){
+            if (i == Cuotas.get(Index).size()) {
                 return true;
             }
         }
@@ -94,5 +100,9 @@ public class AsociadoController {
 
     public Prestamo GetPrestamo() {
         return Prestamos.get(Prestamos.size() - 1);
+    }
+
+    public int IndexCuota(int Index) {
+        return Asociados.get(Index).getIndexCuotas();
     }
 }
