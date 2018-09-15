@@ -16,7 +16,7 @@ public class Cuota {
     private double valorPagar;
     private double Saldo;
     private boolean Pagado;
-    Prestamo Prestamo;
+    private Prestamo Prestamo;
 
     public Cuota(int nCuota, double valorCuota, double valorPagar, double Saldo, boolean Pagado, Prestamo Prestamo) {
         this.nCuota = nCuota;

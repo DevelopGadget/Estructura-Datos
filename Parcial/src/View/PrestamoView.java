@@ -235,7 +235,7 @@ public class PrestamoView extends javax.swing.JFrame {
                 Integer.parseInt(txtInteres.getText()), Integer.parseInt(txtPlazo.getText()), Asociados.Read(tblAsociados.getValueAt(Select, 0).toString())));
         btnCancelar.doClick();
         JOptionPane.showMessageDialog(null, "Prestamo Creado", "Aprobado", 1);
-        Asociados.CrearCuotas(Asociados.GetPrestamo(), 1, new Vector<Cuota>());
+        Asociados.CrearCuotas(Asociados.GetPrestamo(), 1, new Vector<Cuota>(), Select);
         Listar((DefaultTableModel) tblAsociados.getModel(), Asociados.ReadAsociados());
     }//GEN-LAST:event_btnAprobarActionPerformed
 
@@ -260,8 +260,8 @@ public class PrestamoView extends javax.swing.JFrame {
 
     private void tblBancMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBancMouseClicked
         if (tblBanc.getSelectedColumn() == 4 && tblBanc.getValueAt(tblBanc.getSelectedRow(), 4).equals("false")) {
-            Asociados.CambiarEstadoCuota(Select, Integer.parseInt(tblBanc.getValueAt(tblBanc.getSelectedRow(), 0).toString()));
-            if (Asociados.ValidarEstadoPrestamo(Select)) {
+            Asociados.CambiarEstadoCuota(Asociados.IndexCuota(Select), Integer.parseInt(tblBanc.getValueAt(tblBanc.getSelectedRow(), 0).toString()));
+            if (Asociados.ValidarEstadoPrestamo(Asociados.IndexCuota(Select))) {
                 ((DefaultTableModel) tblBanc.getModel()).setNumRows(0);
                 JOptionPane.showMessageDialog(null, "Prestamo Pagado", "Pagado", 1);
                 Asociados.CambiarEstado(tblAsociados.getValueAt(Select, 0).toString(), "SIN PRESTAMO");
