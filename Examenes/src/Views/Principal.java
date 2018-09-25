@@ -1,6 +1,15 @@
 package Views;
 
+import Controller.Controlador;
+import Models.Estudiante;
+import java.util.UUID;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class Principal extends javax.swing.JFrame {
+
+    private Controlador Cont = new Controlador();
 
     public Principal() {
         new AgregarExamen(this);
@@ -22,18 +31,26 @@ public class Principal extends javax.swing.JFrame {
         btn_Agregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         tbl_SC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Codigo", "Nombre", "Nota"
+                "Codigo", "Nombre"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -44,7 +61,6 @@ public class Principal extends javax.swing.JFrame {
         if (tbl_SC.getColumnModel().getColumnCount() > 0) {
             tbl_SC.getColumnModel().getColumn(0).setResizable(false);
             tbl_SC.getColumnModel().getColumn(1).setResizable(false);
-            tbl_SC.getColumnModel().getColumn(2).setResizable(false);
         }
 
         jLabel1.setText("Exmenes sin claificar");
@@ -76,8 +92,19 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setText("Exmenes calificados");
 
         btn_Calf.setText("Calificar");
+        btn_Calf.setEnabled(false);
+        btn_Calf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CalfActionPerformed(evt);
+            }
+        });
 
         btn_Agregar.setText("Agregar");
+        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,6 +148,53 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
+        String Nombre = "";
+        while (Nombre.isEmpty()) {
+            Nombre = JOptionPane.showInputDialog("Escriba el nombre");
+            if (Nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Debe digitar un nombre", "Error", 0);
+            } else {
+                Cont.AgregarExamen(new Estudiante(Nombre, UUID.randomUUID().toString()));
+                Listar((DefaultTableModel) tbl_SC.getModel(), Cont.ReadPila());
+                btn_Calf.setEnabled(true);
+            }
+        }
+    }//GEN-LAST:event_btn_AgregarActionPerformed
+
+    private void btn_CalfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CalfActionPerformed
+        String Nota = "";
+        while (Nota.isEmpty()) {
+            Nota = JOptionPane.showInputDialog("Escriba un numero entero de preguntas buenas");
+            if (Nota.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Debe digitar un numero entero", "Error", 0);
+            } else {
+                try {
+                    if (Cont.ValidarPregunta(Integer.parseInt(Nota))) {
+                        if (Cont.CalificarEstudiante(Integer.parseInt(Nota))) {
+                            btn_Calf.setEnabled(false);
+                        }
+                        Listar((DefaultTableModel) tbl_SC.getModel(), Cont.ReadPila());
+                        Listar((DefaultTableModel) tbl_C.getModel(), Cont.ReadExamenes());
+                    } else {
+                    JOptionPane.showMessageDialog(null, "Fuera de rango de preguntas", "Error", 0);
+                    Nota = "";
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Debe digitar solo numeros enteros", "Error", 0);
+                    Nota = "";
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_CalfActionPerformed
+
+    private void Listar(DefaultTableModel Model, Vector<String[]> Array) {
+        Model.setNumRows(0);
+        Array.forEach(Item -> {
+            Model.addRow(Item);
+        });
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
