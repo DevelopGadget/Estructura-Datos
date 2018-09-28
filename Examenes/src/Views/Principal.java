@@ -12,9 +12,13 @@ public class Principal extends javax.swing.JFrame {
     private Controlador Cont = new Controlador();
 
     public Principal() {
-        new AgregarExamen(this);
+        if (Cont.getExamen() == null) {
+            new AgregarExamen(this);
+        }
         initComponents();
         this.setLocationRelativeTo(null);
+        Listar((DefaultTableModel) tbl_SC.getModel(), Cont.ReadPila());
+        Listar((DefaultTableModel) tbl_C.getModel(), Cont.ReadExamenes());
     }
 
     @SuppressWarnings("unchecked")
@@ -178,8 +182,8 @@ public class Principal extends javax.swing.JFrame {
                         Listar((DefaultTableModel) tbl_SC.getModel(), Cont.ReadPila());
                         Listar((DefaultTableModel) tbl_C.getModel(), Cont.ReadExamenes());
                     } else {
-                    JOptionPane.showMessageDialog(null, "Fuera de rango de preguntas", "Error", 0);
-                    Nota = "";
+                        JOptionPane.showMessageDialog(null, "Fuera de rango de preguntas", "Error", 0);
+                        Nota = "";
                     }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Debe digitar solo numeros enteros", "Error", 0);
