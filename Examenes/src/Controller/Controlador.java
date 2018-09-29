@@ -75,10 +75,11 @@ public class Controlador {
     }
 
     public boolean ValidarPregunta(int Pregunta) {
-        if (Pregunta < ExamenEvaluar.getPreguntas() || Pregunta > ExamenEvaluar.getPreguntas()) {
-            return false;
-        } else {
+        if (Pregunta <= ExamenEvaluar.getPreguntas() && Pregunta >= 0) {
             return true;
+        } else {
+            System.err.println("Entro ");
+            return false;
         }
     }
 

@@ -19,6 +19,9 @@ public class Principal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         Listar((DefaultTableModel) tbl_SC.getModel(), Cont.ReadPila());
         Listar((DefaultTableModel) tbl_C.getModel(), Cont.ReadExamenes());
+        if(Cont.ReadExamenes().size() >= 0){
+            btn_Calf.setEnabled(true);
+        }
     }
 
     @SuppressWarnings("unchecked")
