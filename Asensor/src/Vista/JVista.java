@@ -1,7 +1,12 @@
 package Vista;
 
+import Controlador.Controlador;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 public class JVista extends javax.swing.JFrame {
 
+    private final Controlador Cont = new Controlador();
 
     public JVista() {
         initComponents();
@@ -43,6 +48,11 @@ public class JVista extends javax.swing.JFrame {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 15, -1, -1));
 
         btn_Agregar.setText("+");
+        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(309, 11, -1, -1));
 
         tbl_4Piso.setModel(new javax.swing.table.DefaultTableModel(
@@ -201,15 +211,24 @@ public class JVista extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1208, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
+        new Agregar(this, false);
+    }//GEN-LAST:event_btn_AgregarActionPerformed
+
+    public static void Listar(DefaultTableModel Tabla, ArrayList<String[]> Array) {
+        Tabla.setNumRows(0);
+        Array.forEach(Tabla::addRow);
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -260,7 +279,7 @@ public class JVista extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable tbl_3Piso;
     private javax.swing.JTable tbl_4Piso;
-    private javax.swing.JTable tbl_Disponible;
+    public static javax.swing.JTable tbl_Disponible;
     private javax.swing.JTable tbl_Ingreso;
     // End of variables declaration//GEN-END:variables
 }
