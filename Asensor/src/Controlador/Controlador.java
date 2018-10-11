@@ -20,4 +20,8 @@ public class Controlador {
         });
         return Get;
     }
+    
+    public void QuitarPersona(int Index){
+        Personas.remove(Index);
+    }
 }
