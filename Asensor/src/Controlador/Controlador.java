@@ -4,6 +4,7 @@ import Modelo.Ingreso;
 import Modelo.Persona;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -22,6 +23,7 @@ public class Controlador {
             this.Piso3.offer(P);
         } else {
             this.Piso4.push(P);
+            System.out.println(Piso4.size());
         }
     }
 
@@ -30,6 +32,28 @@ public class Controlador {
         Personas.forEach(Item -> {
             Get.add(new String[]{Item.getNombre(), Item.getCodigo(), Item.getPeso() + ""});
         });
+        return Get;
+    }
+
+    public ArrayList<String[]> ReadPiso3() {
+        ArrayList<String[]> Get = new ArrayList();
+        Ingreso Item;
+        if (Piso3.size() > 0) {
+            while ((Item = Piso3.poll()) != null) {
+                Get.add(new String[]{Item.getPersona().getNombre(), Item.getPersona().getPeso() + "", Item.getMomento() + "", Get.size() + ""});
+            }
+        }
+        return Get;
+    }
+
+    public ArrayList<String[]> ReadPiso4() {
+        ArrayList<String[]> Get = new ArrayList();
+        if (Piso4.size() > 0) {
+            Ingreso Item;
+            while (Piso4.size() > 0 && (Item = Piso4.pop()) != null) {
+                Get.add(new String[]{Item.getPersona().getNombre(), Item.getPersona().getPeso() + "", Item.getMomento() + "", Get.size() + ""});
+            }
+        }
         return Get;
     }
 

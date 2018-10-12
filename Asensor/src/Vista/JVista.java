@@ -33,7 +33,7 @@ public class JVista extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbl_3Piso = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btn_Ingreso = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbl_Disponible = new javax.swing.JTable();
@@ -66,7 +66,7 @@ public class JVista extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Momento", "Momento", "Orden"
+                "Nombre", "Peso", "Momento", "Orden"
             }
         ) {
             Class[] types = new Class [] {
@@ -87,6 +87,7 @@ public class JVista extends javax.swing.JFrame {
         tbl_4Piso.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tbl_4Piso);
         if (tbl_4Piso.getColumnModel().getColumnCount() > 0) {
+            tbl_4Piso.getColumnModel().getColumn(0).setResizable(false);
             tbl_4Piso.getColumnModel().getColumn(1).setResizable(false);
             tbl_4Piso.getColumnModel().getColumn(2).setResizable(false);
             tbl_4Piso.getColumnModel().getColumn(3).setResizable(false);
@@ -156,8 +157,14 @@ public class JVista extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(834, 156, 360, 140));
 
-        jButton1.setText("Ingresar");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 420, 80, 50));
+        btn_Ingreso.setText("Ingresar");
+        btn_Ingreso.setEnabled(false);
+        btn_Ingreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_IngresoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_Ingreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 420, 80, 50));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/Sin título.png"))); // NOI18N
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, -1, -1));
@@ -280,8 +287,18 @@ public class JVista extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_PlantActionPerformed
 
     private void btn_SistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SistActionPerformed
-        Ingreso(true, "Piso 4", 4);
+        Ingreso(false, "Piso 4", 4);
     }//GEN-LAST:event_btn_SistActionPerformed
+
+    private void btn_IngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_IngresoActionPerformed
+        Listar((DefaultTableModel) tbl_3Piso.getModel(), Cont.ReadPiso3());
+        Listar((DefaultTableModel) tbl_4Piso.getModel(), Cont.ReadPiso4());
+        Listar((DefaultTableModel) tbl_Disponible.getModel(), Cont.ReadPersona());
+        Listar((DefaultTableModel) tbl_Ingreso.getModel(), Cont.ReadIngreso());
+        Botones(false);
+        btn_Ingreso.setEnabled(false);
+        btn_Recep.setEnabled(true);
+    }//GEN-LAST:event_btn_IngresoActionPerformed
 
     private void Ingreso(boolean V, String Cod, int Piso) {
         if (tbl_Disponible.getSelectedRow() >= 0) {
@@ -290,6 +307,7 @@ public class JVista extends javax.swing.JFrame {
             Listar((DefaultTableModel) tbl_Disponible.getModel(), Cont.ReadPersona());
             Listar((DefaultTableModel) tbl_Ingreso.getModel(), Cont.ReadIngreso());
             Botones(false);
+            btn_Ingreso.setEnabled(true);
         } else {
             JOptionPane.showConfirmDialog(null, "Debe escoger una persona", "Error", 0);
         }
@@ -340,11 +358,11 @@ public class JVista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Agregar;
+    private javax.swing.JButton btn_Ingreso;
     private javax.swing.JButton btn_Plant;
     private javax.swing.JButton btn_Quitar;
     private javax.swing.JButton btn_Recep;
     private javax.swing.JButton btn_Sist;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
