@@ -1,19 +1,22 @@
 package Vista;
 
 import Controlador.Controlador;
+import Modelo.Ingreso;
+import Modelo.Piso;
 import java.util.ArrayList;
+import java.util.UUID;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class JVista extends javax.swing.JFrame {
-    
+
     private final Controlador Cont = new Controlador();
-    
+
     public JVista() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -96,14 +99,24 @@ public class JVista extends javax.swing.JFrame {
 
         btn_Plant.setText("3 Planta");
         btn_Plant.setEnabled(false);
+        btn_Plant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_PlantActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Plant, new org.netbeans.lib.awtextra.AbsoluteConstraints(119, 286, 84, 42));
 
         btn_Recep.setText("1 Recepcion");
         btn_Recep.setEnabled(false);
         jPanel1.add(btn_Recep, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 286, -1, 42));
 
-        btn_Sist.setText("3 Sistemas");
+        btn_Sist.setText("4 Sistemas");
         btn_Sist.setEnabled(false);
+        btn_Sist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_SistActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Sist, new org.netbeans.lib.awtextra.AbsoluteConstraints(221, 286, -1, 42));
 
         jLabel3.setLabelFor(tbl_3Piso);
@@ -261,19 +274,38 @@ public class JVista extends javax.swing.JFrame {
     private void tbl_DisponibleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DisponibleMouseClicked
         Botones(true);
     }//GEN-LAST:event_tbl_DisponibleMouseClicked
-    
+
+    private void btn_PlantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_PlantActionPerformed
+        Ingreso(true, "Piso 3", 3);
+    }//GEN-LAST:event_btn_PlantActionPerformed
+
+    private void btn_SistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SistActionPerformed
+        Ingreso(true, "Piso 4", 4);
+    }//GEN-LAST:event_btn_SistActionPerformed
+
+    private void Ingreso(boolean V, String Cod, int Piso) {
+        if (tbl_Disponible.getSelectedRow() >= 0) {
+            Cont.CrearIngreso(new Ingreso(Cont.QuitarPersona(tbl_Disponible.getSelectedRow()),
+                    new Piso(Cod, Piso), Cont.Momento()), V);
+            Listar((DefaultTableModel) tbl_Disponible.getModel(), Cont.ReadPersona());
+            Listar((DefaultTableModel) tbl_Ingreso.getModel(), Cont.ReadIngreso());
+            Botones(false);
+        } else {
+            JOptionPane.showConfirmDialog(null, "Debe escoger una persona", "Error", 0);
+        }
+    }
+
     public static void Listar(DefaultTableModel Tabla, ArrayList<String[]> Array) {
         Tabla.setNumRows(0);
         Array.forEach(Tabla::addRow);
     }
-    
+
     private void Botones(boolean cond) {
         btn_Quitar.setEnabled(cond);
-        btn_Recep.setEnabled(cond);
         btn_Plant.setEnabled(cond);
         btn_Sist.setEnabled(cond);
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
