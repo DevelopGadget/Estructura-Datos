@@ -109,6 +109,11 @@ public class JVista extends javax.swing.JFrame {
 
         btn_Recep.setText("1 Recepcion");
         btn_Recep.setEnabled(false);
+        btn_Recep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RecepActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Recep, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 286, -1, 42));
 
         btn_Sist.setText("4 Sistemas");
@@ -299,6 +304,17 @@ public class JVista extends javax.swing.JFrame {
         btn_Ingreso.setEnabled(false);
         btn_Recep.setEnabled(true);
     }//GEN-LAST:event_btn_IngresoActionPerformed
+
+    private void btn_RecepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RecepActionPerformed
+        Cont.Recepcion();
+        Botones(false);
+        btn_Ingreso.setEnabled(false);
+        btn_Recep.setEnabled(false);
+        Listar((DefaultTableModel) tbl_Disponible.getModel(), Cont.ReadPersona());
+        Listar((DefaultTableModel) tbl_Ingreso.getModel(), new ArrayList<String[]>());
+        Listar((DefaultTableModel) tbl_3Piso.getModel(), new ArrayList<String[]>());
+        Listar((DefaultTableModel) tbl_4Piso.getModel(), new ArrayList<String[]>());
+    }//GEN-LAST:event_btn_RecepActionPerformed
 
     private void Ingreso(boolean V, String Cod, int Piso) {
         if (tbl_Disponible.getSelectedRow() >= 0) {

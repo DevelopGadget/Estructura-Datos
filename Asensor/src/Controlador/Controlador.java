@@ -4,18 +4,19 @@ import Modelo.Ingreso;
 import Modelo.Persona;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
 public class Controlador {
 
-    private static final ArrayList<Persona> Personas = new ArrayList();
+    private static ArrayList<Persona> Personas = new ArrayList();
+    private static final ArrayList<Persona> PersonasCopia = new ArrayList();
     private static final Stack<Ingreso> Piso4 = new Stack();
     private static final Queue<Ingreso> Piso3 = new LinkedList();
 
     public void CrearPersona(Persona P) {
         Personas.add(P);
+        PersonasCopia.add(P);
     }
 
     public void CrearIngreso(Ingreso P, boolean Piso3) {
@@ -66,6 +67,10 @@ public class Controlador {
             Get.add(new String[]{Item.getPersona().getNombre(), Item.getPiso().getNumero() + "", Item.getMomento() + ""});
         });
         return Get;
+    }
+
+    public void Recepcion() {
+        Personas = (ArrayList<Persona>) PersonasCopia.clone();
     }
 
     public Persona QuitarPersona(int Index) {
