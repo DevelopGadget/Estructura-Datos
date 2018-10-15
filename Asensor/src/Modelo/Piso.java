@@ -1,7 +1,9 @@
 package Modelo;
 
-public class Piso {
-    
+import java.io.Serializable;
+
+public class Piso implements Serializable {
+
     private String Codigo;
     private int Numero;
 
@@ -25,5 +27,5 @@ public class Piso {
     public void setNumero(int Numero) {
         this.Numero = Numero;
     }
-    
+
 }

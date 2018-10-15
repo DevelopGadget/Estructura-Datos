@@ -1,6 +1,8 @@
 package Modelo;
 
-public class Ingreso {
+import java.io.Serializable;
+
+public class Ingreso implements Serializable{
     
     private Persona _Persona;
     private Piso _Piso;

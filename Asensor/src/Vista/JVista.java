@@ -15,6 +15,11 @@ public class JVista extends javax.swing.JFrame {
     public JVista() {
         initComponents();
         this.setLocationRelativeTo(null);
+        Listar((DefaultTableModel) tbl_Disponible.getModel(), Cont.ReadPersona());
+        Listar((DefaultTableModel) tbl_Ingreso.getModel(), Cont.ReadIngreso());
+        if (tbl_Ingreso.getRowCount() > 0) {
+            btn_Ingreso.setEnabled(true);
+        }
     }
 
     @SuppressWarnings("unchecked")
