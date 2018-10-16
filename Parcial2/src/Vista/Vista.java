@@ -2,6 +2,7 @@ package Vista;
 
 import Controlador.MercanciaControlador;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,6 +21,17 @@ public class Vista extends javax.swing.JFrame {
         Array.forEach(Tabla::addRow);
     }
 
+    private void ListarLabel(){
+    
+    }
+    
+    private void CambiarLabel(JLabel LCodigo, JLabel JNombre, JLabel JPeso, JLabel JFecha, String Codigo, String Nombre, String Peso, String Fecha){
+        LCodigo.setText(Codigo);
+        JNombre.setText(Nombre);
+        JPeso.setText(Peso);
+        JFecha.setText(Fecha);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
