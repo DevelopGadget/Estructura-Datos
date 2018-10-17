@@ -1,6 +1,7 @@
 package Vista;
 
 import Controlador.MercanciaControlador;
+import Modelo.Mercancia;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,6 +15,8 @@ public class Vista extends javax.swing.JFrame {
         initComponents();
         Listar((DefaultTableModel) tbl_Mercancia.getModel(), MerCont.ReadMercancia());
         Listar((DefaultTableModel) tbl_Cola.getModel(), MerCont.ReadMercanciaInspec());
+        CambiarLabel(lbl_Codigo, lbl_Nombre, lbl_Peso, lbl_Fecha, 
+                MerCont.getMercanciaInspeccion().element(),  MerCont.getMercanciaInspeccion().element().getFechaSalida());
     }
 
     private void Listar(DefaultTableModel Tabla, ArrayList<String[]> Array) {
@@ -21,17 +24,15 @@ public class Vista extends javax.swing.JFrame {
         Array.forEach(Tabla::addRow);
     }
 
-    private void ListarLabel(){
-    
+    private void CambiarLabel(JLabel LCodigo, JLabel JNombre, JLabel JPeso, JLabel JFecha, Mercancia Mer, String Fecha) {
+        if (Mer != null) {
+            LCodigo.setText(Mer.getCodigo());
+            JNombre.setText(Mer.getNombre());
+            JPeso.setText(Mer.getPeso() + "");
+            JFecha.setText(Fecha);
+        }
     }
-    
-    private void CambiarLabel(JLabel LCodigo, JLabel JNombre, JLabel JPeso, JLabel JFecha, String Codigo, String Nombre, String Peso, String Fecha){
-        LCodigo.setText(Codigo);
-        JNombre.setText(Nombre);
-        JPeso.setText(Peso);
-        JFecha.setText(Fecha);
-    }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -47,17 +48,17 @@ public class Vista extends javax.swing.JFrame {
         lbl_Codigo = new javax.swing.JLabel();
         lbl_Nombre = new javax.swing.JLabel();
         lbl_Peso = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lbl_Fecha = new javax.swing.JLabel();
         pn_Licencia = new javax.swing.JPanel();
         lbl_Codigo1 = new javax.swing.JLabel();
         lbl_Nombre1 = new javax.swing.JLabel();
         lbl_Peso1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lbl_Fecha1 = new javax.swing.JLabel();
         pn_Importacion = new javax.swing.JPanel();
         lbl_Codigo2 = new javax.swing.JLabel();
         lbl_Nombre2 = new javax.swing.JLabel();
         lbl_Peso2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lbl_Fecha2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbl_MercanciaN = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
@@ -122,8 +123,15 @@ public class Vista extends javax.swing.JFrame {
         jButton2.setText("Revision Licencia");
 
         jButton3.setText("Importacion");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         pn_Fisica.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pn_Fisica.setMaximumSize(new java.awt.Dimension(244, 113));
+        pn_Fisica.setMinimumSize(new java.awt.Dimension(244, 113));
 
         lbl_Codigo.setText("Codigo: ");
 
@@ -131,7 +139,7 @@ public class Vista extends javax.swing.JFrame {
 
         lbl_Peso.setText("Peso: ");
 
-        jLabel2.setText("Fecha: ");
+        lbl_Fecha.setText("Fecha: ");
 
         javax.swing.GroupLayout pn_FisicaLayout = new javax.swing.GroupLayout(pn_Fisica);
         pn_Fisica.setLayout(pn_FisicaLayout);
@@ -143,7 +151,7 @@ public class Vista extends javax.swing.JFrame {
                     .addComponent(lbl_Codigo)
                     .addComponent(lbl_Nombre)
                     .addComponent(lbl_Peso)
-                    .addComponent(jLabel2))
+                    .addComponent(lbl_Fecha))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pn_FisicaLayout.setVerticalGroup(
@@ -156,11 +164,14 @@ public class Vista extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbl_Peso)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addComponent(lbl_Fecha)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pn_Licencia.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pn_Licencia.setMaximumSize(new java.awt.Dimension(244, 113));
+        pn_Licencia.setMinimumSize(new java.awt.Dimension(244, 113));
+        pn_Licencia.setPreferredSize(new java.awt.Dimension(244, 113));
 
         lbl_Codigo1.setText("Codigo: ");
 
@@ -168,7 +179,7 @@ public class Vista extends javax.swing.JFrame {
 
         lbl_Peso1.setText("Peso: ");
 
-        jLabel3.setText("Fecha: ");
+        lbl_Fecha1.setText("Fecha: ");
 
         javax.swing.GroupLayout pn_LicenciaLayout = new javax.swing.GroupLayout(pn_Licencia);
         pn_Licencia.setLayout(pn_LicenciaLayout);
@@ -180,7 +191,7 @@ public class Vista extends javax.swing.JFrame {
                     .addComponent(lbl_Codigo1)
                     .addComponent(lbl_Nombre1)
                     .addComponent(lbl_Peso1)
-                    .addComponent(jLabel3))
+                    .addComponent(lbl_Fecha1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pn_LicenciaLayout.setVerticalGroup(
@@ -193,11 +204,14 @@ public class Vista extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbl_Peso1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(lbl_Fecha1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pn_Importacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pn_Importacion.setMaximumSize(new java.awt.Dimension(244, 113));
+        pn_Importacion.setMinimumSize(new java.awt.Dimension(244, 113));
+        pn_Importacion.setPreferredSize(new java.awt.Dimension(244, 113));
 
         lbl_Codigo2.setText("Codigo: ");
 
@@ -205,7 +219,7 @@ public class Vista extends javax.swing.JFrame {
 
         lbl_Peso2.setText("Peso: ");
 
-        jLabel4.setText("Fecha: ");
+        lbl_Fecha2.setText("Fecha: ");
 
         javax.swing.GroupLayout pn_ImportacionLayout = new javax.swing.GroupLayout(pn_Importacion);
         pn_Importacion.setLayout(pn_ImportacionLayout);
@@ -217,8 +231,8 @@ public class Vista extends javax.swing.JFrame {
                     .addComponent(lbl_Codigo2)
                     .addComponent(lbl_Nombre2)
                     .addComponent(lbl_Peso2)
-                    .addComponent(jLabel4))
-                .addContainerGap(121, Short.MAX_VALUE))
+                    .addComponent(lbl_Fecha2))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
         pn_ImportacionLayout.setVerticalGroup(
             pn_ImportacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +244,7 @@ public class Vista extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbl_Peso2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                .addComponent(lbl_Fecha2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -368,12 +382,7 @@ public class Vista extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -387,34 +396,48 @@ public class Vista extends javax.swing.JFrame {
                                 .addComponent(btn_Sacar)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_Inspeccion, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(btn_Inspeccion, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jLabel6)
-                            .addComponent(pn_Fisica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(pn_Fisica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6)
+                        .addGap(65, 65, 65)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                             .addComponent(pn_Licencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
+                        .addGap(86, 86, 86)
                         .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(pn_Importacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(pn_Importacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(44, 44, 44))
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel7)
-                        .addGap(45, 45, 45))))
+                        .addGap(90, 90, 90))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addGap(457, 457, 457))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -428,7 +451,7 @@ public class Vista extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_Inspeccion)
                             .addComponent(jButton2)
-                            .addComponent(jButton3))
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pn_Fisica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -439,10 +462,10 @@ public class Vista extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8)
-                        .addComponent(jLabel6))
-                    .addComponent(jLabel7))
+                        .addComponent(jLabel6)))
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_Sacar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -468,6 +491,10 @@ public class Vista extends javax.swing.JFrame {
             Listar((DefaultTableModel) tbl_Cola.getModel(), MerCont.ReadMercanciaInspec());
         }
     }//GEN-LAST:event_btn_SacarActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -507,9 +534,6 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -522,6 +546,9 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_Codigo;
     private javax.swing.JLabel lbl_Codigo1;
     private javax.swing.JLabel lbl_Codigo2;
+    private javax.swing.JLabel lbl_Fecha;
+    private javax.swing.JLabel lbl_Fecha1;
+    private javax.swing.JLabel lbl_Fecha2;
     private javax.swing.JLabel lbl_Nombre;
     private javax.swing.JLabel lbl_Nombre1;
     private javax.swing.JLabel lbl_Nombre2;

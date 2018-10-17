@@ -18,7 +18,6 @@ public class MercanciaControlador {
 
     private Stack<Mercancia> MercanciaContainer = new Stack();
     private Queue<Mercancia> MercanciaInspeccion = new LinkedList();
-    private Mercancia Inspec = null;
 
     public MercanciaControlador() {
         Quemados("Persistencia.dat");
@@ -50,9 +49,8 @@ public class MercanciaControlador {
     public ArrayList<String[]> ReadMercanciaInspec() {
         ArrayList<String[]> Get = new ArrayList();
         if (MercanciaInspeccion.size() > 0) {
-            Inspec = MercanciaInspeccion.element();
             MercanciaInspeccion.forEach(Item -> {
-                if (Item.getEstado().equals("EN PROCESO") && !Inspec.getCodigo().equals(Item.getCodigo())) {
+                if (Item.getEstado().equals("EN PROCESO") && !MercanciaInspeccion.element().getCodigo().equals(Item.getCodigo())) {
                     Get.add(new String[]{Item.getNombre()});
                 }
             });
@@ -103,4 +101,8 @@ public class MercanciaControlador {
         }
     }
 
+    public Queue<Mercancia> getMercanciaInspeccion() {
+        return MercanciaInspeccion;
+    }
+    
 }
