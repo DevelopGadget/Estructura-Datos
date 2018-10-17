@@ -19,6 +19,7 @@ public class MercanciaControlador {
     private Stack<Mercancia> MercanciaContainer = new Stack();
     private Queue<Mercancia> MercanciaInspeccion = new LinkedList();
     private Queue<Mercancia> MercanciaRevision = new LinkedList();
+    private Queue<Mercancia> MercanciaImpor = new LinkedList();
 
     public MercanciaControlador() {
         Quemados("Persistencia.dat");
@@ -29,6 +30,10 @@ public class MercanciaControlador {
         MercanciaRevision = (Queue<Mercancia>) Leer("PilaReve.dat");
         if (MercanciaRevision == null) {
             MercanciaRevision = new LinkedList();
+        }
+        MercanciaImpor = (Queue<Mercancia>) Leer("PilaImpor.dat");
+        if (MercanciaImpor == null) {
+            MercanciaImpor = new LinkedList();
         }
 
     }
@@ -59,6 +64,15 @@ public class MercanciaControlador {
         MercanciaRevision.offer(M);
         Persistencia("PilaReve.dat", MercanciaRevision);
         Persistencia("PiaInspec.dat", MercanciaInspeccion);
+    }
+
+    public void Revisar() {
+        Mercancia M = MercanciaRevision.poll();
+        M.setEstado("LICENCIA REVISADA");
+        M.setFechaRevision(new Date().toString());
+        MercanciaImpor.offer(M);
+        Persistencia("PilaReve.dat", MercanciaRevision);
+        Persistencia("PilaImpor.dat", MercanciaImpor);
     }
 
     public ArrayList<String[]> ReadMercanciaCola(Queue<Mercancia> Cola, String Estado) {
@@ -123,4 +137,9 @@ public class MercanciaControlador {
     public Queue<Mercancia> getMercanciaRevision() {
         return MercanciaRevision;
     }
+
+    public Queue<Mercancia> getMercanciaImpor() {
+        return MercanciaImpor;
+    }
+
 }

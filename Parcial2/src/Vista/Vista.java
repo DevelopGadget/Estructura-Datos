@@ -16,6 +16,7 @@ public class Vista extends javax.swing.JFrame {
         Listar((DefaultTableModel) tbl_Mercancia.getModel(), MerCont.ReadMercancia());
         Listar((DefaultTableModel) tbl_Cola.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaInspeccion(), "EN PROCESO"));
         Listar((DefaultTableModel) tbl_Cola1.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaRevision(), "REVISADO FISICAMENTE"));
+        Listar((DefaultTableModel) tbl_Cola2.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaImpor(), "LICENCIA REVISADA"));
         try {
             CambiarLabel(lbl_Codigo, lbl_Nombre, lbl_Peso, lbl_Fecha,
                     MerCont.getMercanciaInspeccion().element(), MerCont.getMercanciaInspeccion().element().getFechaSalida());
@@ -24,6 +25,11 @@ public class Vista extends javax.swing.JFrame {
         try {
             CambiarLabel(lbl_Codigo1, lbl_Nombre1, lbl_Peso1, lbl_Fecha1,
                     MerCont.getMercanciaRevision().element(), MerCont.getMercanciaRevision().element().getFechaInspeccion());
+        } catch (Exception e) {
+        }
+        try {
+            CambiarLabel(lbl_Codigo2, lbl_Nombre2, lbl_Peso2, lbl_Fecha2,
+                    MerCont.getMercanciaImpor().element(), MerCont.getMercanciaImpor().element().getFechaRevision());
         } catch (Exception e) {
         }
     }
@@ -56,7 +62,7 @@ public class Vista extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btn_Sacar = new javax.swing.JButton();
         btn_Inspeccion = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_Revesion = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         pn_Fisica = new javax.swing.JPanel();
         lbl_Codigo = new javax.swing.JLabel();
@@ -139,10 +145,10 @@ public class Vista extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Revision Licencia");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_Revesion.setText("Revision Licencia");
+        btn_Revesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_RevesionActionPerformed(evt);
             }
         });
 
@@ -435,7 +441,7 @@ public class Vista extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(pn_Licencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)))
+                        .addComponent(btn_Revesion, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -472,7 +478,7 @@ public class Vista extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_Inspeccion)
-                            .addComponent(jButton2)
+                            .addComponent(btn_Revesion)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,6 +517,12 @@ public class Vista extends javax.swing.JFrame {
             MerCont.Sacar();
             Listar((DefaultTableModel) tbl_Mercancia.getModel(), MerCont.ReadMercancia());
             Listar((DefaultTableModel) tbl_Cola.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaInspeccion(), "EN PROCESO"));
+            try {
+                CambiarLabel(lbl_Codigo, lbl_Nombre, lbl_Peso, lbl_Fecha,
+                        MerCont.getMercanciaInspeccion().element(), MerCont.getMercanciaInspeccion().element().getFechaSalida());
+            } catch (Exception e) {
+                CambiarLabel(lbl_Codigo, lbl_Nombre, lbl_Peso, lbl_Fecha, null, "");
+            }
         }
     }//GEN-LAST:event_btn_SacarActionPerformed
 
@@ -518,12 +530,30 @@ public class Vista extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btn_RevesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RevesionActionPerformed
+        if (lbl_Codigo1.getText().contains("Codigo:")) {
+            JOptionPane.showMessageDialog(null, "No hay mas elementos", "Error", 0);
+        } else {
+            MerCont.Revisar();
+            Listar((DefaultTableModel) tbl_Cola2.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaImpor(), "LICENCIA REVISADA"));
+            Listar((DefaultTableModel) tbl_Cola1.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaInspeccion(), "REVISADO FISICAMENTE"));
+            try {
+                CambiarLabel(lbl_Codigo2, lbl_Nombre2, lbl_Peso2, lbl_Fecha2,
+                        MerCont.getMercanciaImpor().element(), MerCont.getMercanciaImpor().element().getFechaRevision());
+            } catch (Exception e) {
+                CambiarLabel(lbl_Codigo2, lbl_Nombre2, lbl_Peso2, lbl_Fecha2, null, "");
+            }
+            try {
+                CambiarLabel(lbl_Codigo1, lbl_Nombre1, lbl_Peso1, lbl_Fecha1,
+                        MerCont.getMercanciaRevision().element(), MerCont.getMercanciaRevision().element().getFechaInspeccion());
+            } catch (Exception e) {
+                CambiarLabel(lbl_Codigo1, lbl_Nombre1, lbl_Peso1, lbl_Fecha1, null, "");
+            }
+        }
+    }//GEN-LAST:event_btn_RevesionActionPerformed
 
     private void btn_InspeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InspeccionActionPerformed
-        if (lbl_Codigo.getText().isEmpty()) {
+        if (lbl_Codigo.getText().contains("Codigo:")) {
             JOptionPane.showMessageDialog(null, "No hay mas elementos", "Error", 0);
         } else {
             MerCont.Inspeccionar();
@@ -533,11 +563,13 @@ public class Vista extends javax.swing.JFrame {
                 CambiarLabel(lbl_Codigo, lbl_Nombre, lbl_Peso, lbl_Fecha,
                         MerCont.getMercanciaInspeccion().element(), MerCont.getMercanciaInspeccion().element().getFechaSalida());
             } catch (Exception e) {
+                CambiarLabel(lbl_Codigo, lbl_Nombre, lbl_Peso, lbl_Fecha, null, "");
             }
             try {
                 CambiarLabel(lbl_Codigo1, lbl_Nombre1, lbl_Peso1, lbl_Fecha1,
                         MerCont.getMercanciaRevision().element(), MerCont.getMercanciaRevision().element().getFechaInspeccion());
             } catch (Exception e) {
+                CambiarLabel(lbl_Codigo1, lbl_Nombre1, lbl_Peso1, lbl_Fecha1, null, "");
             }
         }
     }//GEN-LAST:event_btn_InspeccionActionPerformed
@@ -576,8 +608,8 @@ public class Vista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Inspeccion;
+    private javax.swing.JButton btn_Revesion;
     private javax.swing.JButton btn_Sacar;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
