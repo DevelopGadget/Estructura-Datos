@@ -17,15 +17,20 @@ import java.util.UUID;
 public class MercanciaControlador {
 
     private Stack<Mercancia> MercanciaContainer = new Stack();
+    private Stack<Mercancia> Mercancias = new Stack();
     private Queue<Mercancia> MercanciaInspeccion = new LinkedList();
     private Queue<Mercancia> MercanciaRevision = new LinkedList();
     private Queue<Mercancia> MercanciaImpor = new LinkedList();
 
     public MercanciaControlador() {
         Quemados("Persistencia.dat");
-        MercanciaInspeccion = (Queue<Mercancia>) Leer("PiaInspec.dat");
+        MercanciaInspeccion = (Queue<Mercancia>) Leer("PilaInspec.dat");
         if (MercanciaInspeccion == null) {
             MercanciaInspeccion = new LinkedList();
+        }
+        Mercancias = (Stack<Mercancia>) Leer("Mercancias.dat");
+        if (Mercancias == null) {
+            Mercancias = new Stack();
         }
         MercanciaRevision = (Queue<Mercancia>) Leer("PilaReve.dat");
         if (MercanciaRevision == null) {
@@ -48,13 +53,23 @@ public class MercanciaControlador {
         return Get;
     }
 
+    public ArrayList<String[]> ReadMercanciaImport() {
+        ArrayList<String[]> Get = new ArrayList();
+        Mercancias.forEach(Item -> {
+            if (Item.getEstado().equals("IMPORTADA")) {
+                Get.add(new String[]{Item.getCodigo(), Item.getNombre(), Item.getFechaSalida(), Item.getFechaInspeccion(), Item.getFechaRevision(), Item.getFechaImportacion()});
+            }
+        });
+        return Get;
+    }
+
     public void Sacar() {
         Mercancia M = MercanciaContainer.pop();
         M.setEstado("EN PROCESO");
         M.setFechaSalida(new Date().toString());
         MercanciaInspeccion.offer(M);
         Persistencia("Persistencia.dat", MercanciaContainer);
-        Persistencia("PiaInspec.dat", MercanciaInspeccion);
+        Persistencia("PilaInspec.dat", MercanciaInspeccion);
     }
 
     public void Inspeccionar() {
@@ -63,7 +78,7 @@ public class MercanciaControlador {
         M.setFechaInspeccion(new Date().toString());
         MercanciaRevision.offer(M);
         Persistencia("PilaReve.dat", MercanciaRevision);
-        Persistencia("PiaInspec.dat", MercanciaInspeccion);
+        Persistencia("PilaInspec.dat", MercanciaInspeccion);
     }
 
     public void Revisar() {
@@ -72,6 +87,15 @@ public class MercanciaControlador {
         M.setFechaRevision(new Date().toString());
         MercanciaImpor.offer(M);
         Persistencia("PilaReve.dat", MercanciaRevision);
+        Persistencia("PilaImpor.dat", MercanciaImpor);
+    }
+
+    public void Importar() {
+        Mercancia M = MercanciaImpor.poll();
+        M.setEstado("IMPORTADA");
+        M.setFechaImportacion(new Date().toString());
+        Mercancias.push(M);
+        Persistencia("Mercancias.dat", Mercancias);
         Persistencia("PilaImpor.dat", MercanciaImpor);
     }
 

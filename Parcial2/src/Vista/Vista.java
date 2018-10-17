@@ -14,6 +14,7 @@ public class Vista extends javax.swing.JFrame {
     public Vista() {
         initComponents();
         Listar((DefaultTableModel) tbl_Mercancia.getModel(), MerCont.ReadMercancia());
+        Listar((DefaultTableModel) tbl_MercanciaN.getModel(), MerCont.ReadMercanciaImport());
         Listar((DefaultTableModel) tbl_Cola.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaInspeccion(), "EN PROCESO"));
         Listar((DefaultTableModel) tbl_Cola1.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaRevision(), "REVISADO FISICAMENTE"));
         Listar((DefaultTableModel) tbl_Cola2.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaImpor(), "LICENCIA REVISADA"));
@@ -63,7 +64,7 @@ public class Vista extends javax.swing.JFrame {
         btn_Sacar = new javax.swing.JButton();
         btn_Inspeccion = new javax.swing.JButton();
         btn_Revesion = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btn_Impor = new javax.swing.JButton();
         pn_Fisica = new javax.swing.JPanel();
         lbl_Codigo = new javax.swing.JLabel();
         lbl_Nombre = new javax.swing.JLabel();
@@ -152,10 +153,10 @@ public class Vista extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Importacion");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btn_Impor.setText("Importacion");
+        btn_Impor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btn_ImporActionPerformed(evt);
             }
         });
 
@@ -448,7 +449,7 @@ public class Vista extends javax.swing.JFrame {
                         .addComponent(pn_Importacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_Impor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -479,7 +480,7 @@ public class Vista extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_Inspeccion)
                             .addComponent(btn_Revesion)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_Impor, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pn_Fisica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -526,9 +527,21 @@ public class Vista extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_SacarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btn_ImporActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ImporActionPerformed
+        if (lbl_Codigo2.getText().contains("Codigo:")) {
+            JOptionPane.showMessageDialog(null, "No hay mas elementos", "Error", 0);
+        } else {
+            MerCont.Importar();
+            Listar((DefaultTableModel) tbl_Cola2.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaImpor(), "LICENCIA REVISADA"));
+            Listar((DefaultTableModel) tbl_MercanciaN.getModel(), MerCont.ReadMercanciaImport());
+            try {
+                CambiarLabel(lbl_Codigo2, lbl_Nombre2, lbl_Peso2, lbl_Fecha2,
+                        MerCont.getMercanciaImpor().element(), MerCont.getMercanciaImpor().element().getFechaRevision());
+            } catch (Exception e) {
+                CambiarLabel(lbl_Codigo2, lbl_Nombre2, lbl_Peso2, lbl_Fecha2, null, "");
+            }
+        }
+    }//GEN-LAST:event_btn_ImporActionPerformed
 
     private void btn_RevesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RevesionActionPerformed
         if (lbl_Codigo1.getText().contains("Codigo:")) {
@@ -536,7 +549,7 @@ public class Vista extends javax.swing.JFrame {
         } else {
             MerCont.Revisar();
             Listar((DefaultTableModel) tbl_Cola2.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaImpor(), "LICENCIA REVISADA"));
-            Listar((DefaultTableModel) tbl_Cola1.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaInspeccion(), "REVISADO FISICAMENTE"));
+            Listar((DefaultTableModel) tbl_Cola1.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaRevision(), "REVISADO FISICAMENTE"));
             try {
                 CambiarLabel(lbl_Codigo2, lbl_Nombre2, lbl_Peso2, lbl_Fecha2,
                         MerCont.getMercanciaImpor().element(), MerCont.getMercanciaImpor().element().getFechaRevision());
@@ -607,10 +620,10 @@ public class Vista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Impor;
     private javax.swing.JButton btn_Inspeccion;
     private javax.swing.JButton btn_Revesion;
     private javax.swing.JButton btn_Sacar;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
