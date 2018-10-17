@@ -18,6 +18,7 @@ public class MercanciaControlador {
 
     private Stack<Mercancia> MercanciaContainer = new Stack();
     private Queue<Mercancia> MercanciaInspeccion = new LinkedList();
+    private Queue<Mercancia> MercanciaRevision = new LinkedList();
 
     public MercanciaControlador() {
         Quemados("Persistencia.dat");
@@ -25,6 +26,11 @@ public class MercanciaControlador {
         if (MercanciaInspeccion == null) {
             MercanciaInspeccion = new LinkedList();
         }
+        MercanciaRevision = (Queue<Mercancia>) Leer("PilaReve.dat");
+        if (MercanciaRevision == null) {
+            MercanciaRevision = new LinkedList();
+        }
+
     }
 
     public ArrayList<String[]> ReadMercancia() {
@@ -46,11 +52,20 @@ public class MercanciaControlador {
         Persistencia("PiaInspec.dat", MercanciaInspeccion);
     }
 
-    public ArrayList<String[]> ReadMercanciaInspec() {
+    public void Inspeccionar() {
+        Mercancia M = MercanciaInspeccion.poll();
+        M.setEstado("REVISADO FISICAMENTE");
+        M.setFechaInspeccion(new Date().toString());
+        MercanciaRevision.offer(M);
+        Persistencia("PilaReve.dat", MercanciaRevision);
+        Persistencia("PiaInspec.dat", MercanciaInspeccion);
+    }
+
+    public ArrayList<String[]> ReadMercanciaCola(Queue<Mercancia> Cola, String Estado) {
         ArrayList<String[]> Get = new ArrayList();
-        if (MercanciaInspeccion.size() > 0) {
-            MercanciaInspeccion.forEach(Item -> {
-                if (Item.getEstado().equals("EN PROCESO") && !MercanciaInspeccion.element().getCodigo().equals(Item.getCodigo())) {
+        if (Cola.size() > 0) {
+            Cola.forEach(Item -> {
+                if (Item.getEstado().equals(Estado) && !Cola.element().getCodigo().equals(Item.getCodigo())) {
                     Get.add(new String[]{Item.getNombre()});
                 }
             });
@@ -104,5 +119,8 @@ public class MercanciaControlador {
     public Queue<Mercancia> getMercanciaInspeccion() {
         return MercanciaInspeccion;
     }
-    
+
+    public Queue<Mercancia> getMercanciaRevision() {
+        return MercanciaRevision;
+    }
 }

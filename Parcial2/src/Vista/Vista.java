@@ -14,9 +14,18 @@ public class Vista extends javax.swing.JFrame {
     public Vista() {
         initComponents();
         Listar((DefaultTableModel) tbl_Mercancia.getModel(), MerCont.ReadMercancia());
-        Listar((DefaultTableModel) tbl_Cola.getModel(), MerCont.ReadMercanciaInspec());
-        CambiarLabel(lbl_Codigo, lbl_Nombre, lbl_Peso, lbl_Fecha, 
-                MerCont.getMercanciaInspeccion().element(),  MerCont.getMercanciaInspeccion().element().getFechaSalida());
+        Listar((DefaultTableModel) tbl_Cola.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaInspeccion(), "EN PROCESO"));
+        Listar((DefaultTableModel) tbl_Cola1.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaRevision(), "REVISADO FISICAMENTE"));
+        try {
+            CambiarLabel(lbl_Codigo, lbl_Nombre, lbl_Peso, lbl_Fecha,
+                    MerCont.getMercanciaInspeccion().element(), MerCont.getMercanciaInspeccion().element().getFechaSalida());
+        } catch (Exception e) {
+        }
+        try {
+            CambiarLabel(lbl_Codigo1, lbl_Nombre1, lbl_Peso1, lbl_Fecha1,
+                    MerCont.getMercanciaRevision().element(), MerCont.getMercanciaRevision().element().getFechaInspeccion());
+        } catch (Exception e) {
+        }
     }
 
     private void Listar(DefaultTableModel Tabla, ArrayList<String[]> Array) {
@@ -30,6 +39,11 @@ public class Vista extends javax.swing.JFrame {
             JNombre.setText(Mer.getNombre());
             JPeso.setText(Mer.getPeso() + "");
             JFecha.setText(Fecha);
+        } else {
+            LCodigo.setText("Codigo: ");
+            JNombre.setText("Nombre: ");
+            JPeso.setText("Peso: ");
+            JFecha.setText("Fecha: ");
         }
     }
 
@@ -67,9 +81,9 @@ public class Vista extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tbl_Cola1 = new javax.swing.JTable();
-        jScrollPane5 = new javax.swing.JScrollPane();
         tbl_Cola2 = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tbl_Cola1 = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -119,8 +133,18 @@ public class Vista extends javax.swing.JFrame {
         });
 
         btn_Inspeccion.setText("Inspeccion Fisica");
+        btn_Inspeccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_InspeccionActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Revision Licencia");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Importacion");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -317,35 +341,6 @@ public class Vista extends javax.swing.JFrame {
 
         jLabel7.setText("Cola Importacionç");
 
-        tbl_Cola1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_Cola1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane4.setViewportView(tbl_Cola1);
-        if (tbl_Cola1.getColumnModel().getColumnCount() > 0) {
-            tbl_Cola1.getColumnModel().getColumn(0).setResizable(false);
-        }
-
         tbl_Cola2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -370,9 +365,38 @@ public class Vista extends javax.swing.JFrame {
             }
         });
         tbl_Cola2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane5.setViewportView(tbl_Cola2);
+        jScrollPane4.setViewportView(tbl_Cola2);
         if (tbl_Cola2.getColumnModel().getColumnCount() > 0) {
             tbl_Cola2.getColumnModel().getColumn(0).setResizable(false);
+        }
+
+        tbl_Cola1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_Cola1.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(tbl_Cola1);
+        if (tbl_Cola1.getColumnModel().getColumnCount() > 0) {
+            tbl_Cola1.getColumnModel().getColumn(0).setResizable(false);
         }
 
         jLabel8.setText("Cola Licenciada");
@@ -405,16 +429,14 @@ public class Vista extends javax.swing.JFrame {
                         .addGap(65, 65, 65)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                            .addComponent(pn_Licencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)))
+                        .addGap(0, 99, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(pn_Licencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(pn_Importacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -456,9 +478,9 @@ public class Vista extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pn_Fisica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(pn_Licencia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(pn_Importacion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(pn_Importacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pn_Licencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -488,13 +510,37 @@ public class Vista extends javax.swing.JFrame {
         } else {
             MerCont.Sacar();
             Listar((DefaultTableModel) tbl_Mercancia.getModel(), MerCont.ReadMercancia());
-            Listar((DefaultTableModel) tbl_Cola.getModel(), MerCont.ReadMercanciaInspec());
+            Listar((DefaultTableModel) tbl_Cola.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaInspeccion(), "EN PROCESO"));
         }
     }//GEN-LAST:event_btn_SacarActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btn_InspeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InspeccionActionPerformed
+        if (lbl_Codigo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay mas elementos", "Error", 0);
+        } else {
+            MerCont.Inspeccionar();
+            Listar((DefaultTableModel) tbl_Cola1.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaRevision(), "REVISADO FISICAMENTE"));
+            Listar((DefaultTableModel) tbl_Cola.getModel(), MerCont.ReadMercanciaCola(MerCont.getMercanciaInspeccion(), "EN PROCESO"));
+            try {
+                CambiarLabel(lbl_Codigo, lbl_Nombre, lbl_Peso, lbl_Fecha,
+                        MerCont.getMercanciaInspeccion().element(), MerCont.getMercanciaInspeccion().element().getFechaSalida());
+            } catch (Exception e) {
+            }
+            try {
+                CambiarLabel(lbl_Codigo1, lbl_Nombre1, lbl_Peso1, lbl_Fecha1,
+                        MerCont.getMercanciaRevision().element(), MerCont.getMercanciaRevision().element().getFechaInspeccion());
+            } catch (Exception e) {
+            }
+        }
+    }//GEN-LAST:event_btn_InspeccionActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
