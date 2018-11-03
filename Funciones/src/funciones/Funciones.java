@@ -18,7 +18,9 @@ public class Funciones {
         
         Filtro = (list, predicado) -> {
             List<Integer> Result = new ArrayList();
-            for(Integer r : list) if(predicado.test(r)) Result.add(r);
+            list.stream().filter((r) -> (predicado.test(r))).forEachOrdered((r) -> {
+                Result.add(r);
+            });
             return Result;
         };
         
